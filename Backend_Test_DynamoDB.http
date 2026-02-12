@@ -1,0 +1,6 @@
+@Backend_Test_DynamoDB_HostAddress = http://localhost:5261
+
+GET {{Backend_Test_DynamoDB_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
