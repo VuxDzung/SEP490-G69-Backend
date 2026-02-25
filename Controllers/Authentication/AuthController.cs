@@ -3,6 +3,7 @@ using Backend_Test_DynamoDB.DTO.Authentication.Responses;
 using Backend_Test_DynamoDB.Models;
 using Backend_Test_DynamoDB.Services;
 using Backend_Test_DynamoDB.Utils;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -15,14 +16,22 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
         private readonly IAuthService _authService;
         private IPlayerManagementService _playerManageService;
         private readonly ILogger<AuthController> _logger;
-        private readonly GoogleDesktopClientOptions _googleClientOptions;
+        private readonly IConfiguration _config;
 
-        public AuthController(GoogleDesktopClientOptions googleClientOptions, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
+        private readonly string _clientId;
+        private readonly string _clientSecret;
+        private readonly string _redirectUri;
+
+        public AuthController(IConfiguration config, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
         {
             _authService = authService;
             _logger = logger;
             _playerManageService = managementService;
-            _googleClientOptions = googleClientOptions;
+            _config = config;
+            var section = _config.GetSection("GoogleDesktopClient");
+            _clientId = section["ClientId"];
+            _clientSecret = section["ClientId"];
+            _redirectUri = section["ClientId"];
         }
 
         [HttpPost("firebase-login")]
@@ -71,9 +80,9 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
             var values = new Dictionary<string, string>
             {
                 { "code", code },
-                { "client_id", _googleClientOptions.ClientId },
-                { "client_secret", _googleClientOptions.ClientSecret },  
-                { "redirect_uri", _googleClientOptions.RedirectUri },
+                { "client_id", _clientId },
+                { "client_secret", _clientSecret },  
+                { "redirect_uri", _redirectUri },
                 { "grant_type", "authorization_code" },
                 { "code_verifier", codeVerifier }
             };
