@@ -3,6 +3,7 @@ using Amazon.Lambda.AspNetCoreServer.Hosting;
 using Backend_Test_DynamoDB.Database;
 using Backend_Test_DynamoDB.Repositories;
 using Backend_Test_DynamoDB.Services;
+using Backend_Test_DynamoDB.Utils;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,19 +74,20 @@ namespace Backend_Test_DynamoDB
                 );
             });
 
+            builder.Services.Configure<GoogleDesktopClientOptions>(
+                builder.Configuration.GetSection("GoogleDesktopClient")
+            );
 
             // ===============================
             // Repositories
             // ===============================
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
-
             // ===============================
             // Services
             // ===============================
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
             builder.Services.AddScoped<IPlayerProfileService, PlayerProfileService>();
             builder.Services.AddScoped<IPlayerManagementService, PlayerManagementService>();
 

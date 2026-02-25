@@ -1,7 +1,10 @@
-﻿using Backend_Test_DynamoDB.DTO.Authentication.Responses;
+﻿using Backend_Test_DynamoDB.DTO.Authentication;
+using Backend_Test_DynamoDB.DTO.Authentication.Responses;
 using Backend_Test_DynamoDB.Models;
 using Backend_Test_DynamoDB.Services;
+using Backend_Test_DynamoDB.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Backend_Test_DynamoDB.Controllers.Authentication
 {
@@ -11,15 +14,15 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
     {
         private readonly IAuthService _authService;
         private IPlayerManagementService _playerManageService;
-        private readonly IGoogleAuthService _googleAuthService;
         private readonly ILogger<AuthController> _logger;
+        private readonly GoogleDesktopClientOptions _googleClientOptions;
 
-        public AuthController(IGoogleAuthService googleAuthService, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
+        public AuthController(GoogleDesktopClientOptions googleClientOptions, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
         {
             _authService = authService;
             _logger = logger;
-            _googleAuthService = googleAuthService;
             _playerManageService = managementService;
+            _googleClientOptions = googleClientOptions;
         }
 
         [HttpPost("firebase-login")]
@@ -42,23 +45,54 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
             return Ok(response);
         }
 
-        // STEP 1: Start Google Login
-        [HttpGet("google/start")]
-        public IActionResult StartGoogleLogin()
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleAuthRequest request)
         {
-            string url = _googleAuthService.GenerateGoogleLoginUrl();
-            return Redirect(url);
+            var tokens = await ExchangeCodeAsync(request.AuthorizationCode, request.CodeVerifier);
+
+            //var payload = await GoogleJsonWebSignature.ValidateAsync(tokens.id_token);
+
+            //string uid = payload.Subject;
+
+            //var customToken = await FirebaseAdmin.Auth.FirebaseAuth
+            //    .DefaultInstance
+            //    .CreateCustomTokenAsync(uid);
+
+            WindowsLoginByGGResponse response = new WindowsLoginByGGResponse
+            {
+                TokenId = tokens.id_token
+            };
+
+            return Ok(response);
         }
 
-        // STEP 2: Google callback
-        [HttpGet("google-callback")]
-        public async Task<IActionResult> GoogleCallback(string code)
+        private async Task<GoogleTokenResponse> ExchangeCodeAsync(string code, string codeVerifier)
         {
-            GoogleLoginResult result = await _googleAuthService.HandleGoogleCallbackAsync(code);
-            Console.WriteLine($"Google token id: {result.GoogleIdToken}");
-            string redirectUrl = $"mygame://auth?googleIdToken={result.GoogleIdToken}";
+            var values = new Dictionary<string, string>
+            {
+                { "code", code },
+                { "client_id", _googleClientOptions.ClientId },
+                { "client_secret", _googleClientOptions.ClientSecret },  
+                { "redirect_uri", _googleClientOptions.RedirectUri },
+                { "grant_type", "authorization_code" },
+                { "code_verifier", codeVerifier }
+            };
 
-            return Redirect(redirectUrl);
+            using var client = new HttpClient();
+            var content = new FormUrlEncodedContent(values);
+
+            var response = await client.PostAsync(
+                "https://oauth2.googleapis.com/token",
+                content);
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Google token exchange failed: {json}");
+            }
+            Console.WriteLine($"Received: {json}");
+            return JsonSerializer.Deserialize<GoogleTokenResponse>(json);
         }
 
         #region Dev only
@@ -77,5 +111,20 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
             return BadRequest();
         }
         #endregion
+    }
+
+    public class GoogleTokenResponse
+    {
+        public string access_token { get; set; }
+        public int expires_in { get; set; }
+            public string refresh_token { get; set; }
+        public string scope {  get; set; }
+        public string token_type { get; set; }
+        public string id_token { get; set; }
+    }
+
+    public class WindowsLoginByGGResponse
+    {
+        public string TokenId { get; set; }
     }
 }
