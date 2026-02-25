@@ -86,6 +86,8 @@ namespace Backend_Test_DynamoDB
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+            builder.Services.AddScoped<IPlayerProfileService, PlayerProfileService>();
+            builder.Services.AddScoped<IPlayerManagementService, PlayerManagementService>();
 
             // ===============================
             // Controllers & Swagger

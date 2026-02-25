@@ -1,4 +1,5 @@
 ﻿using Backend_Test_DynamoDB.DTO.Authentication.Responses;
+using Backend_Test_DynamoDB.Models;
 using Backend_Test_DynamoDB.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,14 +10,16 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private IPlayerManagementService _playerManageService;
         private readonly IGoogleAuthService _googleAuthService;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IGoogleAuthService googleAuthService, IAuthService authService, ILogger<AuthController> logger)
+        public AuthController(IGoogleAuthService googleAuthService, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
         {
             _authService = authService;
             _logger = logger;
             _googleAuthService = googleAuthService;
+            _playerManageService = managementService;
         }
 
         [HttpPost("firebase-login")]
@@ -57,5 +60,22 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
 
             return Redirect(redirectUrl);
         }
+
+        #region Dev only
+        [HttpGet("getAllPlayers")]
+        public async Task<List<PlayerData>> GetAllPlayers()
+        {
+            return await _playerManageService.GetAllPlayers();
+        }
+        [HttpDelete("deletePlayer")]
+        public async Task<IActionResult> DeletePlayer(string playerId)
+        {
+            bool success = await _playerManageService.DeletePlayer(playerId); 
+            if (success) 
+                return Ok();
+
+            return BadRequest();
+        }
+        #endregion
     }
 }
