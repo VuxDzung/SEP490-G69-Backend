@@ -26,10 +26,12 @@ namespace Backend_Test_DynamoDB.Services
 
                 playerData.PlayerName = name;
                 await _repository.SaveAsync(playerData);
+                Console.WriteLine($"Update player name of {playerId} to {playerData.PlayerName} successfully!");
                 return true;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return false;
             }
         }

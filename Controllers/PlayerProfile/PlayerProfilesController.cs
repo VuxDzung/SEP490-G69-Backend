@@ -20,10 +20,23 @@ namespace Backend_Test_DynamoDB.Controllers.PlayerProfile
         [HttpPut("updatePlayerName")]
         public async Task<IActionResult> UpdatePlayerName(UpdatePlayerNameRequest request)
         {
+            if (string.IsNullOrEmpty(request.PlayerId))
+            {
+                string error = "Player id is empty";
+                Console.WriteLine(error);
+                return BadRequest(error);
+            }
+            if (string.IsNullOrEmpty(request.PlayerName))
+            {
+                string error = "Player name is empty";
+                Console.WriteLine(error);
+                return BadRequest(error);
+            }
+
             bool success = await _service.TryUpdatePlayerName(request.PlayerId, request.PlayerName);
             if (success)
             {
-                return Ok();
+                return Ok("Update success");
             }
             return BadRequest();
         }
