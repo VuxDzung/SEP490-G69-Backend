@@ -17,7 +17,6 @@ namespace Backend_Test_DynamoDB.Controllers.PlayerProfile
             _service = service;
         }
 
-
         [HttpPut("updatePlayerName")]
         public async Task<IActionResult> UpdatePlayerName(UpdatePlayerNameRequest request)
         {
@@ -30,16 +29,17 @@ namespace Backend_Test_DynamoDB.Controllers.PlayerProfile
         }
 
         [HttpGet("getPlayerName")]
-        public async Task<IActionResult> GetPlayerName([FromBody] GetPlayerNameRequest request)
+        public async Task<IActionResult> GetPlayerName(string playerId)
         {
-            string name = await _service.GetPlayerName(request.PlayerId);
+            string name = await _service.GetPlayerName(playerId);
             
             if (name == null)
             {
                 return BadRequest();
             }
 
-            return Ok(name);
+            GetPlayerNameResponse response = new GetPlayerNameResponse { PlayerName = name };
+            return Ok(response);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Backend_Test_DynamoDB.Services
                 new Claim("points", player.LegacyPoints.ToString())
             };
 
-            return GenerateToken(claims, 15); // 15 phút
+            return GenerateToken(claims, 60); // 60 minutes
         }
 
         public string GenerateRefreshToken(PlayerData player)
@@ -34,7 +34,7 @@ namespace Backend_Test_DynamoDB.Services
                 new Claim("uid", player.PlayerId)
             };
 
-            return GenerateToken(claims, 7 * 24 * 60); // 7 ngày
+            return GenerateToken(claims, 7 * 24 * 60); // 7 days
         }
 
         private string GenerateToken(IEnumerable<Claim> claims, int minutes)
@@ -46,6 +46,8 @@ namespace Backend_Test_DynamoDB.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(minutes),
                 signingCredentials: creds
@@ -70,8 +72,9 @@ namespace Backend_Test_DynamoDB.Services
                     ValidateLifetime = true
                 }, out _);
             }
-            catch
+            catch(System.Exception ex) 
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }

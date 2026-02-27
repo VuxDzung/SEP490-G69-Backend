@@ -2,6 +2,6 @@
 {
     public class GetPlayerNameRequest
     {
-        public string PlayerId { get; set; }
+        public string PlayerId { get; set; } = string.Empty;
     }
 }
