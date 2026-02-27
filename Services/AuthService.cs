@@ -41,7 +41,7 @@ namespace Backend_Test_DynamoDB.Services
                     player = new PlayerData
                     {
                         PlayerId = uid,
-                        PlayerName = $"Player_{uid.Substring(0, 6)}",
+                        PlayerName = "",
                         LegacyPoints = 0,
                         CreatedAt = DateTime.UtcNow,
                         LastLoggedIn = DateTime.UtcNow

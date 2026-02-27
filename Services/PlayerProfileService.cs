@@ -1,5 +1,6 @@
 ﻿using Backend_Test_DynamoDB.Models;
 using Backend_Test_DynamoDB.Repositories;
+using System.Xml.Linq;
 
 namespace Backend_Test_DynamoDB.Services
 {
@@ -17,6 +18,7 @@ namespace Backend_Test_DynamoDB.Services
             try
             {
                 PlayerData playerData = await _repository.GetAsync(playerId);
+
                 if (playerData == null)
                 {
                     return false;
@@ -29,6 +31,25 @@ namespace Backend_Test_DynamoDB.Services
             catch (Exception ex)
             {
                 return false;
+            }
+        }
+
+        public async Task<string> GetPlayerName(string playerId)
+        {
+            try
+            {
+                PlayerData playerData = await _repository.GetAsync(playerId);
+
+                if (playerData == null)
+                {
+                    return "";
+                }
+
+                return playerData.PlayerName;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
     }

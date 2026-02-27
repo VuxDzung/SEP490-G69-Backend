@@ -28,5 +28,18 @@ namespace Backend_Test_DynamoDB.Controllers.PlayerProfile
             }
             return BadRequest();
         }
+
+        [HttpGet("getPlayerName")]
+        public async Task<IActionResult> GetPlayerName([FromBody] GetPlayerNameRequest request)
+        {
+            string name = await _service.GetPlayerName(request.PlayerId);
+            
+            if (name == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(name);
+        }
     }
 }

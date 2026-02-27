@@ -20,7 +20,7 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
 
         private readonly string _clientId;
         private readonly string _clientSecret;
-        private readonly string _redirectUri;
+        //private readonly string _redirectUri;
 
         public AuthController(IConfiguration config, IAuthService authService, IPlayerManagementService managementService, ILogger<AuthController> logger)
         {
@@ -30,8 +30,8 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
             _config = config;
             var section = _config.GetSection("GoogleDesktopClient");
             _clientId = section["ClientId"];
-            _clientSecret = section["ClientId"];
-            _redirectUri = section["ClientId"];
+            _clientSecret = section["ClientSecret"];
+            //_redirectUri = section["RedirectUri"];
         }
 
         [HttpPost("firebase-login")]
@@ -57,7 +57,7 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
         [HttpPost("google")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleAuthRequest request)
         {
-            var tokens = await ExchangeCodeAsync(request.AuthorizationCode, request.CodeVerifier);
+            var tokens = await ExchangeCodeAsync(request.AuthorizationCode, request.CodeVerifier, request.RedirectUri);
 
             //var payload = await GoogleJsonWebSignature.ValidateAsync(tokens.id_token);
 
@@ -75,17 +75,20 @@ namespace Backend_Test_DynamoDB.Controllers.Authentication
             return Ok(response);
         }
 
-        private async Task<GoogleTokenResponse> ExchangeCodeAsync(string code, string codeVerifier)
+        private async Task<GoogleTokenResponse> ExchangeCodeAsync(string code, string codeVerifier, string redirectUri)
         {
             var values = new Dictionary<string, string>
             {
                 { "code", code },
                 { "client_id", _clientId },
-                { "client_secret", _clientSecret },  
-                { "redirect_uri", _redirectUri },
+                { "client_secret", _clientSecret },
+                { "redirect_uri", redirectUri },
                 { "grant_type", "authorization_code" },
                 { "code_verifier", codeVerifier }
             };
+
+            Console.WriteLine($"ClientId: {_clientId}");
+            Console.WriteLine($"ClientSecret: {_clientSecret}");
 
             using var client = new HttpClient();
             var content = new FormUrlEncodedContent(values);
