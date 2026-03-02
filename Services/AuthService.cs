@@ -66,6 +66,7 @@ namespace Backend_Test_DynamoDB.Services
                     Message = $"{actionType} successful",
                     Data = new AuthData
                     {
+                        AuthAction = actionType,
                         AccessToken = accessToken,
                         RefreshToken = refreshToken,
                         PlayerId = player.PlayerId,
