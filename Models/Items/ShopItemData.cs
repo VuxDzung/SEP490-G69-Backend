@@ -7,9 +7,9 @@ namespace Backend_Test_DynamoDB.Models.Items
     {
         #region Identifiers
         [DynamoDBHashKey("session_item_id")]
-        public string SessionItemId { get; set; }
-        public string SessionId { get; set; }
-        public string RawItemId { get; set; }
+        public string SessionItemId { get; set; } = string.Empty;
+        public string SessionId { get; set; } = string.Empty;
+        public string RawItemId { get; set; } = string.Empty;
         #endregion
 
         public int RemainAmount { get; set; }

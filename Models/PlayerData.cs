@@ -6,7 +6,7 @@ namespace Backend_Test_DynamoDB.Models
     public class PlayerData
     {
         [DynamoDBHashKey("player_id")]
-        public string PlayerId { get; set; }
+        public string PlayerId { get; set; } = string.Empty;
 
         public string PlayerName { get; set; } = string.Empty;
         public string PlayerEmail { get; set; } = string.Empty;

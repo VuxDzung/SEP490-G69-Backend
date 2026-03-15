@@ -6,7 +6,7 @@ namespace Backend_Test_DynamoDB.Models.Cards
     public class SessionPlayerDeck
     {
         [DynamoDBHashKey("session_id")]
-        public string SessionId { get; set; }
-        public string[] CardIds { get; set; }
+        public string SessionId { get; set; } = string.Empty;
+        public string[] CardIds { get; set; } = new string[0];
     }
 }

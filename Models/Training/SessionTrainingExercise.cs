@@ -6,10 +6,10 @@ namespace Backend_Test_DynamoDB.Models.Training
     public class SessionTrainingExercise
     {
         [DynamoDBHashKey("entity_id")]
-        public string EntityId { get; set; }
+        public string EntityId { get; set; } = string.Empty;
 
-        public string RawExerciseId { get; set; }
-        public string SessionId { get; set; }
+        public string RawExerciseId { get; set; } = string.Empty;
+        public string SessionId { get; set; } = string.Empty;
         public int Level { get; set; }
     }
 }

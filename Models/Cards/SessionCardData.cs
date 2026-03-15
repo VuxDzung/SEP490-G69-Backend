@@ -10,9 +10,9 @@ namespace Backend_Test_DynamoDB.Models.Cards
         /// <SESSION_ID>:<RAW_CARD_ID>
         /// </summary>
         [DynamoDBHashKey("session_card_id")]
-        public string SessionCardId { get; set; }
-        public string RawCardId { get; set; }
-        public string SessionId { get; set; }
+        public string SessionCardId { get; set; } = string.Empty;
+        public string RawCardId { get; set; } = string.Empty;
+        public string SessionId { get; set; } = string.Empty;
 
         public int ObtainedAmount { get; set; }
     }

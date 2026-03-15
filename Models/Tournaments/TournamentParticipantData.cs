@@ -2,9 +2,9 @@
 {
     public class TournamentParticipantData
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
 
-        public string CharacterId { get; set; }
+        public string CharacterId { get; set; } = string.Empty;
 
         public bool IsPlayer { get; set; }
 
