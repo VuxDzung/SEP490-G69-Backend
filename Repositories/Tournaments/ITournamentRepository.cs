@@ -4,9 +4,9 @@ namespace Backend_Test_DynamoDB.Repositories.Tournaments
 {
     public interface ITournamentRepository
     {
-        Task<TournamentProgressData> GetAsync(string playerId);
-        Task SaveAsync(TournamentProgressData player);
+        Task<TournamentProgressData> GetAsync(string id);
+        Task<bool> SaveAsync(TournamentProgressData entity);
         Task<List<TournamentProgressData>> GetAllAsync();
-        Task DeleteAsync(TournamentProgressData player);
+        Task<bool> DeleteAsync(TournamentProgressData entity);
     }
 }

@@ -4,9 +4,12 @@ namespace Backend_Test_DynamoDB.Repositories.Characters
 {
     public interface ICharacterRepository
     {
-        Task<SessionCharacterData> GetAsync(string playerId);
-        Task SaveAsync(SessionCharacterData player);
+        Task<SessionCharacterData> GetAsync(string id);
+
+        Task<bool> SaveAsync(SessionCharacterData entity);
+
         Task<List<SessionCharacterData>> GetAllAsync();
-        Task DeleteAsync(SessionCharacterData player);
+
+        Task<bool> DeleteAsync(SessionCharacterData entity);
     }
 }

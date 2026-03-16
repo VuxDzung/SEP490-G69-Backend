@@ -27,9 +27,9 @@ namespace Backend_Test_DynamoDB.Repositories.Player
         {
             var conditions = new List<ScanCondition>();
 
-            var search = _context.ScanAsync<PlayerData>(conditions);
+            IAsyncSearch<PlayerData> search = _context.ScanAsync<PlayerData>(conditions);
 
-            var result = await search.GetRemainingAsync();
+            List<PlayerData> result = await search.GetRemainingAsync();
 
             return result;
         }

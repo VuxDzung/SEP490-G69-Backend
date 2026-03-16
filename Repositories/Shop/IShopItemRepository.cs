@@ -4,9 +4,9 @@ namespace Backend_Test_DynamoDB.Repositories.Shop
 {
     public interface IShopItemRepository
     {
-        Task<ShopItemData> GetAsync(string playerId);
-        Task SaveAsync(ShopItemData player);
+        Task<ShopItemData> GetAsync(string id);
+        Task<bool> SaveAsync(ShopItemData entity);
         Task<List<ShopItemData>> GetAllAsync();
-        Task DeleteAsync(ShopItemData player);
+        Task<bool> DeleteAsync(ShopItemData entity);
     }
 }

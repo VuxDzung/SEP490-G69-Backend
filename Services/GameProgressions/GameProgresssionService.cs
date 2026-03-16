@@ -1,6 +1,6 @@
 ﻿using Backend_Test_DynamoDB.DTO.GameProgressions;
 using Backend_Test_DynamoDB.Models;
-using Backend_Test_DynamoDB.Repositories;
+using Backend_Test_DynamoDB.Repositories.Player;
 
 namespace Backend_Test_DynamoDB.Services.GameProgressions
 {
