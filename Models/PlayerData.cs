@@ -25,6 +25,6 @@ namespace Backend_Test_DynamoDB.Models
         /// <summary>
         /// How many runs has the player played.
         /// </summary>
-        public int RunCount { get; set; }
+        public int CurrentRun { get; set; }
     }
 }

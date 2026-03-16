@@ -1,6 +1,6 @@
 ﻿using Backend_Test_DynamoDB.Models;
 
-namespace Backend_Test_DynamoDB.Repositories
+namespace Backend_Test_DynamoDB.Repositories.Player
 {
     public interface IPlayerRepository
     {

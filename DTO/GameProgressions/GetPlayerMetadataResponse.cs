@@ -4,6 +4,8 @@
     {
         public bool Success { get; set; }
 
+        public EMetadataResult MetadataResult { get; set; }
+
         #region Success fields
         public string PlayerId { get; set; } = string.Empty;
         public string PlayerName { get; set; } = string.Empty;

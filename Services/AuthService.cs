@@ -1,8 +1,8 @@
 ﻿using Backend_Test_DynamoDB.DTO.Authentication.Responses;
 using Backend_Test_DynamoDB.DTO.Authentication;
 using Backend_Test_DynamoDB.Models;
-using Backend_Test_DynamoDB.Repositories;
 using FirebaseAdmin.Auth;
+using Backend_Test_DynamoDB.Repositories.Player;
 
 namespace Backend_Test_DynamoDB.Services
 {

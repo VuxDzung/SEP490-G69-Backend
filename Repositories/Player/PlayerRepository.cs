@@ -2,7 +2,7 @@
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models;
 
-namespace Backend_Test_DynamoDB.Repositories
+namespace Backend_Test_DynamoDB.Repositories.Player
 {
     public class PlayerRepository : IPlayerRepository
     {

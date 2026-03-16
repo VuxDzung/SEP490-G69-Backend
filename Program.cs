@@ -1,7 +1,7 @@
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.AspNetCoreServer.Hosting;
 using Backend_Test_DynamoDB.Database;
-using Backend_Test_DynamoDB.Repositories;
+using Backend_Test_DynamoDB.Repositories.Player;
 using Backend_Test_DynamoDB.Services;
 using Backend_Test_DynamoDB.Utils;
 using FirebaseAdmin;

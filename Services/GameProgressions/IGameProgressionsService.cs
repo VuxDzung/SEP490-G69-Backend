@@ -4,10 +4,10 @@ namespace Backend_Test_DynamoDB.Services.GameProgressions
 {
     public interface IGameProgressionsService
     {
-        public GetPlayerMetadataResponse GetMetadata(string playerId, string sessionId);
+        public Task<GetPlayerMetadataResponse> GetMetadata(string playerId, string sessionId);
 
-        public GetPlayerGameDataResponse GetPlayerProgression(string playerId, string sessionId);
+        public Task<GetPlayerGameDataResponse> GetPlayerGameData(string playerId, string sessionId);
 
-        public bool UnsertGameProgression(UnsertPlayerGameDataRequest request);
+        public Task<bool> UnsertGameProgression(UnsertPlayerGameDataRequest request);
     }
 }

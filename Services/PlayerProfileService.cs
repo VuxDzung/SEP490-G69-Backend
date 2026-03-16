@@ -1,5 +1,5 @@
 ﻿using Backend_Test_DynamoDB.Models;
-using Backend_Test_DynamoDB.Repositories;
+using Backend_Test_DynamoDB.Repositories.Player;
 using System.Xml.Linq;
 
 namespace Backend_Test_DynamoDB.Services

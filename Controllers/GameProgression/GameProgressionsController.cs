@@ -17,10 +17,10 @@ namespace Backend_Test_DynamoDB.Controllers.GameProgression
             _service = service;
         }
 
-        [HttpGet("getPlayerProgression")]
-        public IActionResult GetPlayerProgression(string playerId, string sessionId)
+        [HttpGet("getPlayerGameData")]
+        public IActionResult GetPlayerGameData(string playerId, string sessionId)
         {
-            GetPlayerGameDataResponse response = _service.GetPlayerProgression(playerId, sessionId);
+            GetPlayerGameDataResponse response = _service.GetPlayerGameData(playerId, sessionId);
 
             if (response == null)
             {
@@ -36,7 +36,11 @@ namespace Backend_Test_DynamoDB.Controllers.GameProgression
 
             if (response == null)
             {
-                return NotFound();
+                response = new GetPlayerMetadataResponse
+                {
+                    Success = false,
+                    ErrorMsg = $"Cannot found the metadata of player {playerId} with session {sessionId}"
+                };
             }
             return Ok(response);
         }

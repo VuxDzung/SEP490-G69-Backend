@@ -10,8 +10,23 @@ namespace Backend_Test_DynamoDB.DTO.GameProgressions
 {
     public class GetPlayerGameDataResponse
     {
-        [JsonProperty("player_data")]
-        public PlayerData PlayerData { get; set; } = new PlayerData();
+        public bool Success { get; set; }
+
+        [JsonProperty("player_id")]
+        public string PlayerId { get; set; } = string.Empty;
+        [JsonProperty("player_name")]
+        public string PlayerName { get; set; } = string.Empty;
+        [JsonProperty("legacy_points")]
+        public int LegacyPoints { get; set; }
+        [JsonProperty("last_sync_time")]
+        public DateTime LastSyncedTime { get; set; }
+        [JsonProperty("current_run")]
+        public int CurrentRun { get; set; }
+
+        /// <summary>
+        /// How many runs has the player played.
+        /// </summary>
+        public int RunCount { get; set; }
 
         [JsonProperty("session")]
         public PlayerGameSession Session { get; set; } = new PlayerGameSession();
