@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models.Items;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Backend_Test_DynamoDB.Repositories.Inventories
 {
@@ -12,7 +13,7 @@ namespace Backend_Test_DynamoDB.Repositories.Inventories
         {
             _context = new DynamoDBContextBuilder().WithDynamoDBClient(() => dynamoDb).Build();
         }
-        public async Task<bool> DeleteAsync(ItemData entity)
+        public async Task<bool> DeleteAsync(InventoryItemData entity)
         {
             try
             {
@@ -26,29 +27,50 @@ namespace Backend_Test_DynamoDB.Repositories.Inventories
             }
         }
 
-        public async Task<List<ItemData>> GetAllAsync()
+        public async Task<List<InventoryItemData>> GetAllAsync()
         {
             try
             {
                 var conditions = new List<ScanCondition>();
-                IAsyncSearch<ItemData> search = _context.ScanAsync<ItemData>(conditions);
+                IAsyncSearch<InventoryItemData> search = _context.ScanAsync<InventoryItemData>(conditions);
 
-                List<ItemData> list = await search.GetRemainingAsync();
+                List<InventoryItemData> list = await search.GetRemainingAsync();
 
                 return list;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return null;
+                return new List<InventoryItemData>();
             }
         }
 
-        public async Task<ItemData> GetAsync(string id)
+        public async Task<List<InventoryItemData>> GetAllBySessionIdAsync(string sessionId)
         {
             try
             {
-                return await _context.LoadAsync<ItemData>(id);
+                List<ScanCondition> conditions = new List<ScanCondition>
+                {
+                    new ScanCondition(nameof(InventoryItemData.SessionId), ScanOperator.Equal, sessionId)
+                }; 
+                IAsyncSearch<InventoryItemData> search = _context.ScanAsync<InventoryItemData>(conditions);
+
+                List<InventoryItemData> list = await search.GetRemainingAsync();
+
+                return list ?? new List<InventoryItemData>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new List<InventoryItemData>();
+            }
+        }
+
+        public async Task<InventoryItemData> GetAsync(string id)
+        {
+            try
+            {
+                return await _context.LoadAsync<InventoryItemData>(id);
             }
             catch (Exception ex)
             {
@@ -57,7 +79,7 @@ namespace Backend_Test_DynamoDB.Repositories.Inventories
             }
         }
 
-        public async Task<bool> SaveAsync(ItemData entity)
+        public async Task<bool> SaveAsync(InventoryItemData entity)
         {
             try
             {

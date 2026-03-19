@@ -4,9 +4,10 @@ namespace Backend_Test_DynamoDB.Repositories.Inventories
 {
     public interface IInventoryItemsRepository
     {
-        Task<ItemData> GetAsync(string id);
-        Task<bool> SaveAsync(ItemData entity);
-        Task<List<ItemData>> GetAllAsync();
-        Task<bool> DeleteAsync(ItemData entity);
+        Task<InventoryItemData> GetAsync(string id);
+        Task<bool> SaveAsync(InventoryItemData entity);
+        Task<List<InventoryItemData>> GetAllAsync();
+        Task<List<InventoryItemData>> GetAllBySessionIdAsync(string sessionId);
+        Task<bool> DeleteAsync(InventoryItemData entity);
     }
 }

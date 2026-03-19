@@ -4,7 +4,7 @@ using Backend_Test_DynamoDB.Models;
 
 namespace Backend_Test_DynamoDB.Repositories.GameSessions
 {
-    public class SessionRepository
+    public class SessionRepository : ISessionRepository
     {
         private readonly DynamoDBContext _context;
 
@@ -27,11 +27,15 @@ namespace Backend_Test_DynamoDB.Repositories.GameSessions
             }
         }
 
-        public async Task<List<PlayerGameSession>> GetAllAsync()
+        public async Task<List<PlayerGameSession>> GetAllAsync(string playerId)
         {
             try
             {
-                var conditions = new List<ScanCondition>();
+                var conditions = new List<ScanCondition>
+                {
+                    new ScanCondition(nameof(PlayerGameSession.PlayerId), Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, playerId),
+                };
+
                 IAsyncSearch<PlayerGameSession> search = _context.ScanAsync<PlayerGameSession>(conditions);
 
                 List<PlayerGameSession> list = await search.GetRemainingAsync();

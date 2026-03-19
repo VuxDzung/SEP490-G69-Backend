@@ -45,6 +45,24 @@ namespace Backend_Test_DynamoDB.Repositories.Cards
             }
         }
 
+        public async Task<List<SessionCardData>> GetAllBySessionId(string sessionId)
+        {
+            try
+            {
+                var conditions = new List<ScanCondition>();
+                IAsyncSearch<SessionCardData> search = _context.ScanAsync<SessionCardData>(conditions);
+
+                List<SessionCardData> cards = await search.GetRemainingAsync();
+
+                return cards;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
         public async Task<SessionCardData> GetAsync(string id)
         {
             try

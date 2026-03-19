@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models.Training;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Backend_Test_DynamoDB.Repositories.TrainingExercises
 {
@@ -42,6 +43,28 @@ namespace Backend_Test_DynamoDB.Repositories.TrainingExercises
             {
                 Console.WriteLine(ex);
                 return null;
+            }
+        }
+
+        public async Task<List<SessionTrainingExercise>> GetAllBySessionIdAsync(string sessionId)
+        {
+            try
+            {
+                List<ScanCondition> conditions = new List<ScanCondition>
+                {
+                    new ScanCondition(nameof(SessionTrainingExercise.SessionId), ScanOperator.Equal, sessionId)
+                };
+
+                var search = _context.ScanAsync<SessionTrainingExercise>(conditions);
+
+                List<SessionTrainingExercise> list = await search.GetRemainingAsync();
+
+                return list ?? new List<SessionTrainingExercise>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new List<SessionTrainingExercise>();
             }
         }
 

@@ -7,6 +7,7 @@ namespace Backend_Test_DynamoDB.Repositories.Tournaments
         Task<TournamentProgressData> GetAsync(string id);
         Task<bool> SaveAsync(TournamentProgressData entity);
         Task<List<TournamentProgressData>> GetAllAsync();
+        Task<List<TournamentProgressData>> GetAllBySessionIdAysnc(string sessionId);
         Task<bool> DeleteAsync(TournamentProgressData entity);
     }
 }

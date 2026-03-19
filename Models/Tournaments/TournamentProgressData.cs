@@ -2,11 +2,12 @@
 
 namespace Backend_Test_DynamoDB.Models.Tournaments
 {
-    [DynamoDBTable("TournamentProgress")]
+    //[DynamoDBTable("TournamentProgress")]
     public class TournamentProgressData
     {
-        [DynamoDBHashKey("entity_id")]
-        public string EntityId { get; set; } = string.Empty;
+        //[DynamoDBHashKey("entity_id")]
+
+        public string Id { get; set; } = string.Empty;
         public string SessionId { get; set; } = string.Empty;
         public string RawTournamentId { get; set; } = string.Empty;
 
@@ -19,6 +20,9 @@ namespace Backend_Test_DynamoDB.Models.Tournaments
 
         public bool WaitingForPlayerBattle { get; set; }
 
-        public string PendingEnemyId { get; set; } = string.Empty;
+        public bool IsBattleFinished { get; set; }
+        public bool IsPlayerWon { get; set; }
+
+        public string PendingEnemyId { get; set; }
     }
 }

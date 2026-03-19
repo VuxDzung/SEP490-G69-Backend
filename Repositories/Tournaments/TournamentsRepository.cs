@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models.Tournaments;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Backend_Test_DynamoDB.Repositories.Tournaments
 {
@@ -37,6 +38,27 @@ namespace Backend_Test_DynamoDB.Repositories.Tournaments
                 List<TournamentProgressData> list = await search.GetRemainingAsync();
 
                 return list;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+        public async Task<List<TournamentProgressData>> GetAllBySessionIdAysnc(string sessionId)
+        {
+            try
+            {
+                List<ScanCondition> conditions = new List<ScanCondition>
+                {
+                    new ScanCondition(nameof(TournamentProgressData.SessionId), ScanOperator.Equal, sessionId)
+                };
+                IAsyncSearch<TournamentProgressData> search = _context.ScanAsync<TournamentProgressData>(conditions);
+
+                List<TournamentProgressData> list = await search.GetRemainingAsync();
+
+                return list ?? new List<TournamentProgressData>();
             }
             catch (Exception ex)
             {

@@ -29,6 +29,11 @@
                 tableName: "PlayerData",
                 hashKey: ("player_id", ScalarAttributeType.S)
             );
+
+            await EnsureTableAsync(
+                tableName: "GameSessions",
+                hashKey: ("session_id", ScalarAttributeType.S)
+            );
         }
 
         private async Task EnsureSessionCheckpointSnapshotTable()

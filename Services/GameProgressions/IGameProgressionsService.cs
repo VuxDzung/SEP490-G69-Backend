@@ -8,6 +8,8 @@ namespace Backend_Test_DynamoDB.Services.GameProgressions
 
         public Task<GetPlayerGameDataResponse> GetPlayerGameData(string playerId, string sessionId);
 
-        public Task<bool> UnsertGameProgression(UnsertPlayerGameDataRequest request);
+        public Task<OverrideCloudDataResponse> UnsertGameProgression(UnsertPlayerGameDataRequest request);
+
+        public Task<UpdateLastSyncedTimeResponse> UpdateLastSyncedTime(UpdateLastSyncTimeRequest request);
     }
 }

@@ -7,6 +7,7 @@ namespace Backend_Test_DynamoDB.Repositories.Cards
         Task<SessionCardData> GetAsync(string playerId);
         Task<bool> SaveAsync(SessionCardData player);
         Task<List<SessionCardData>> GetAllAsync();
+        Task<List<SessionCardData>> GetAllBySessionId(string sessionId);
         Task<bool> DeleteAsync(SessionCardData player);
     }
 }

@@ -1,25 +1,18 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
+using Backend_Test_DynamoDB.Models;
 
-namespace Backend_Test_DynamoDB.Models
+namespace Backend_Test_DynamoDB.DTO.GameProgressions
 {
-    [DynamoDBTable("PlayerData")]
-    public class PlayerData
+    public class PlayerInfoDTO
     {
-        [DynamoDBHashKey("player_id")]
         public string PlayerId { get; set; } = string.Empty;
 
         public string PlayerName { get; set; } = string.Empty;
         public string PlayerEmail { get; set; } = string.Empty;
         public int LegacyPoints { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
-        public DateTime LastLoggedIn { get; set; }
-
+        public int CurrentRun { get; set; }
         public DateTime LastSyncedTime { get; set; }
 
         public DeviceInfo LastSyncedDevice { get; set; } = null;
-
-        public int CurrentRun { get; set; }
     }
 }

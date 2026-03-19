@@ -2,13 +2,14 @@
 
 namespace Backend_Test_DynamoDB.Models.Training
 {
-    [DynamoDBTable("TraningExercises")]
+    //[DynamoDBTable("TraningExercises")]
     public class SessionTrainingExercise
     {
-        [DynamoDBHashKey("entity_id")]
-        public string EntityId { get; set; } = string.Empty;
+        //[DynamoDBHashKey("entity_id")]
 
-        public string RawExerciseId { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+
+        public string ExerciseId { get; set; } = string.Empty;
         public string SessionId { get; set; } = string.Empty;
         public int Level { get; set; }
     }

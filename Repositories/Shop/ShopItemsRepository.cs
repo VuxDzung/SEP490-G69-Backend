@@ -1,6 +1,8 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models.Items;
+using Amazon.DynamoDBv2.DocumentModel;
+using Backend_Test_DynamoDB.Models.Tournaments;
 
 namespace Backend_Test_DynamoDB.Repositories.Shop
 {
@@ -42,6 +44,27 @@ namespace Backend_Test_DynamoDB.Repositories.Shop
             {
                 Console.WriteLine(ex);
                 return null;
+            }
+        }
+
+        public async Task<List<ShopItemData>> GetAllBySessionIdAsync(string sessionId)
+        {
+            try
+            {
+                List<ScanCondition> conditions = new List<ScanCondition>
+                {
+                    new ScanCondition(nameof(ShopItemData.SessionId), ScanOperator.Equal, sessionId)
+                }; 
+                IAsyncSearch<ShopItemData> search = _context.ScanAsync<ShopItemData>(conditions);
+
+                List<ShopItemData> list = await search.GetRemainingAsync();
+
+                return list ?? new List<ShopItemData>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new List<ShopItemData>();
             }
         }
 

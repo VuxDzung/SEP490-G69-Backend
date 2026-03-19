@@ -5,16 +5,16 @@
         /// <summary>
         /// The player has the profile and the session
         /// </summary>
-        HasProfileHasSession,          
+        HasProfileHasSession = 0,          
 
         /// <summary>
         /// The player has no profile -> not register yet. Represent an error.
         /// </summary>
-        NoProfile,             
+        NoProfile = 1,             
         
         /// <summary>
         /// The player has player profile but no session available.
         /// </summary>
-        HasProfileNoSession,           
+        HasProfileNoSession = 2,           
     }
 }

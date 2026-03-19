@@ -7,6 +7,7 @@ namespace Backend_Test_DynamoDB.Repositories.Shop
         Task<ShopItemData> GetAsync(string id);
         Task<bool> SaveAsync(ShopItemData entity);
         Task<List<ShopItemData>> GetAllAsync();
+        Task<List<ShopItemData>> GetAllBySessionIdAsync(string sessionId);
         Task<bool> DeleteAsync(ShopItemData entity);
     }
 }

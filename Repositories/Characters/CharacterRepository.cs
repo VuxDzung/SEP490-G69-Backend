@@ -1,6 +1,7 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2;
 using Backend_Test_DynamoDB.Models.Characters;
+using Amazon.DynamoDBv2.DocumentModel;
 
 namespace Backend_Test_DynamoDB.Repositories.Characters
 {
@@ -41,15 +42,15 @@ namespace Backend_Test_DynamoDB.Repositories.Characters
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return null;
+                return new List<SessionCharacterData>();
             }
         }
 
-        public async Task<SessionCharacterData> GetAsync(string id)
+        public async Task<SessionCharacterData> GetAsync(string entityId)
         {
             try
             {
-                return await _context.LoadAsync<SessionCharacterData>(id);
+                return await _context.LoadAsync<SessionCharacterData>(entityId);
             }
             catch (Exception ex)
             {

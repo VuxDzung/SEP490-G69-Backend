@@ -2,10 +2,11 @@
 
 namespace Backend_Test_DynamoDB.Models.Cards
 {
-    [DynamoDBTable("PlayerDeck")]
-    public class SessionPlayerDeck
+    //[DynamoDBTable("PlayerDeck")]
+    public class SessionDeck
     {
-        [DynamoDBHashKey("session_id")]
+        //[DynamoDBHashKey("session_id")]
+
         public string SessionId { get; set; } = string.Empty;
         public string[] CardIds { get; set; } = new string[0];
     }
