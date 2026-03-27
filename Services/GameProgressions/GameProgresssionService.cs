@@ -3,6 +3,7 @@ using Backend_Test_DynamoDB.Models;
 using Backend_Test_DynamoDB.Repositories.GameSessions;
 using Backend_Test_DynamoDB.Repositories.Player;
 using Backend_Test_DynamoDB.Utils;
+using System.Linq;
 
 namespace Backend_Test_DynamoDB.Services.GameProgressions
 {
@@ -32,7 +33,8 @@ namespace Backend_Test_DynamoDB.Services.GameProgressions
                 return response;
             }
 
-            PlayerGameSession sessionData = await _sessionRepo.GetAsync(sessionId);
+            List<PlayerGameSession> sessions = await _sessionRepo.GetAllAsync(playerId);
+            PlayerGameSession? sessionData = sessions.FirstOrDefault();
 
             if (sessionData == null)
             {
@@ -45,6 +47,8 @@ namespace Backend_Test_DynamoDB.Services.GameProgressions
                 response.MetadataResult = EMetadataResult.HasProfileNoSession;
                 return response;
             }
+
+            Console.WriteLine($"[GameProgresssionService.GetMetadata] HasProfileHasSession\nSessionId: {sessionData.SessionId}");
 
             response.Success = true;
             response.MetadataResult = EMetadataResult.HasProfileHasSession;

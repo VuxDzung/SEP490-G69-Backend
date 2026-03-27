@@ -9,7 +9,7 @@ namespace Backend_Test_DynamoDB.Models.Characters
         // INDENTIFIER
         //-----------------------------------------
         //[DynamoDBHashKey("entity_id")]
-        public string Entity { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
         public string SessionId { get; set; } = string.Empty;
         public string RawCharacterId { get; set; } = string.Empty;
 
