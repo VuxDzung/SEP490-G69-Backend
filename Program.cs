@@ -1,13 +1,21 @@
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.AspNetCoreServer.Hosting;
 using Backend_Test_DynamoDB.Database;
+using Backend_Test_DynamoDB.Repositories.Cards;
+using Backend_Test_DynamoDB.Repositories.Characters;
+using Backend_Test_DynamoDB.Repositories.Deck;
+using Backend_Test_DynamoDB.Repositories.GameSessions;
+using Backend_Test_DynamoDB.Repositories.Inventories;
 using Backend_Test_DynamoDB.Repositories.Player;
+using Backend_Test_DynamoDB.Repositories.Shop;
+using Backend_Test_DynamoDB.Repositories.Tournaments;
+using Backend_Test_DynamoDB.Repositories.TrainingExercises;
 using Backend_Test_DynamoDB.Services;
+using Backend_Test_DynamoDB.Services.GameProgressions;
 using Backend_Test_DynamoDB.Utils;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -82,6 +90,14 @@ namespace Backend_Test_DynamoDB
             // Repositories
             // ===============================
             builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+            builder.Services.AddScoped<ICardRepository, CardRepository>();
+            builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+            builder.Services.AddScoped<IInventoryItemsRepository, InventoryRepository>();
+            builder.Services.AddScoped<IShopItemRepository, ShopItemsRepository>();
+            builder.Services.AddScoped<ITournamentRepository, TournamentsRepository>();
+            builder.Services.AddScoped<ITrainingExercisesRepository, TrainingExercisesRepository>();
+            builder.Services.AddScoped<IDeckRepository, DeckRepository>();
 
             // ===============================
             // Services
@@ -90,6 +106,7 @@ namespace Backend_Test_DynamoDB
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IPlayerProfileService, PlayerProfileService>();
             builder.Services.AddScoped<IPlayerManagementService, PlayerManagementService>();
+            builder.Services.AddScoped<IGameProgressionsService, GameProgresssionService>();
 
             // ===============================
             // Controllers & Swagger
